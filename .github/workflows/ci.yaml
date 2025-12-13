@@ -29,7 +29,6 @@ jobs:
 
     - name: Run tests 
       run: | 
-        cd Matrix 
         python -m unittest discover -s Matrix
 
     - name: notify success 
