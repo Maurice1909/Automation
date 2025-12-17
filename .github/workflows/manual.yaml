@@ -1,0 +1,44 @@
+# manual workflow testing multiple python versions
+name: manual workflow
+
+on:
+  push:  
+  workflow_dispatch:
+    inputs:
+      python-version:
+        description: 'Choose Python version'
+        required: true
+        default: '3.11'
+        type: choice
+        options:
+          - '3.8'
+          - '3.9'
+          - '3.11'
+          - '3.12' 
+jobs: 
+  build: 
+    runs-on: Ubuntu-latest 
+# The matrix strategy allows you to run the same job across multiple configurations. 
+    strategy: 
+      matrix: 
+        python-version: [3.8, 3.9, 3.11, 3.12] 
+
+    steps: 
+    - name: Checkout code 
+      uses: actions/checkout@v2 
+    - name: Set up Python 
+      uses: actions/setup-python@v2 
+      with: 
+        python-version: ${{ matrix. Python-version }} 
+    - name: Install dependencies 
+      run: |
+        cd Matrix 
+        python -m pip install --upgrade pip 
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi 
+    - name: Run tests 
+      run: | 
+        python -m unittest discover -s Matrix
+    - name: notify success 
+      run: echo "All tests passed successfully on ${{ matrix. Python-version }}"
+      if: success()
+
