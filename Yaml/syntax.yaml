@@ -1,11 +1,9 @@
 # key value pairs 
-
 name : John Doe
 age : 30
 is_student : false
 
 # lists 
-
 fruits :
   - apple
   - banana

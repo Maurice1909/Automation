@@ -1,13 +1,11 @@
- ## Test across multiple Python versions. 
+## Test across multiple Python versions. 
 name: CI for Python Matrix 
 
 on: [push] 
 jobs: 
   build: 
     runs-on: Ubuntu-latest 
-
- # The matrix strategy allows you to run the same job across multiple configura 
-
+# The matrix strategy allows you to run the same job across multiple configurations. 
     strategy: 
       matrix: 
         python-version: [3.8, 3.9, 3.11, 3.12] 
@@ -15,22 +13,18 @@ jobs:
     steps: 
     - name: Checkout code 
       uses: actions/checkout@v2 
-
     - name: Set up Python 
       uses: actions/setup-python@v2 
       with: 
         python-version: ${{ matrix. Python-version }} 
-
     - name: Install dependencies 
       run: |
         cd Matrix 
         python -m pip install --upgrade pip 
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi 
-
     - name: Run tests 
       run: | 
         python -m unittest discover -s Matrix
-
     - name: notify success 
       run: echo "All tests passed successfully on ${{ matrix. Python-version }}"
       if: success()
